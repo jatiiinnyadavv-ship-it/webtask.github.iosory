@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>I'm Sorry — For You ❤️</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    :root{ --bg1:#FFDEE9; --bg2:#B5FFFC; --card:#ffffffaa; --accent:#ff6b6b }
+    *{box-sizing:border-box;font-family: 'Segoe UI', Roboto, Arial, sans-serif}
+    body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg1),var(--bg2));}
+    .wrap{width:94%;max-width:980px;margin:30px auto;padding:28px;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.7));box-shadow:0 8px 30px rgba(0,0,0,0.12);position:relative;overflow:hidden}
+    header{display:flex;gap:16px;align-items:center}
+    .avatar{width:94px;height:94px;border-radius:50%;overflow:hidden;flex:0 0 94px;box-shadow:0 6px 18px rgba(0,0,0,0.12);border:4px solid #fff}
+    .avatar img{width:100%;height:100%;object-fit:cover}
+    h1{margin:0;font-size:1.8rem;color:#333}
+    p.lead{margin:6px 0 0;color:#444}
+    .hearts{position:absolute;right:18px;top:8px;pointer-events:none}
+    .card{margin-top:18px;padding:18px;border-radius:14px;background:var(--card);backdrop-filter:blur(6px)}
+    .note{font-size:1.05rem;line-height:1.6;color:#222}
+    .note p{margin:8px 0}
+    .big{font-size:1.15rem;font-weight:600}
+    .effects{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    button{border:0;padding:10px 14px;border-radius:10px;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(255,107,107,0.25)}
+    button.ghost{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+    .typewriter{display:inline-block;overflow:hidden;border-right:.12em solid rgba(0,0,0,0.6);white-space:nowrap}
+    footer{margin-top:18px;color:#444;font-size:0.92rem;display:flex;gap:10px;align-items:center;justify-content:space-between}
+    /* floating hearts */
+    .heart{position:absolute;width:28px;height:28px;opacity:0.95;transform:translateY(0);animation:float 6s linear infinite}
+    @keyframes float{0%{transform:translateY(0) scale(1);opacity:1}50%{transform:translateY(-40px) scale(1.06);opacity:0.9}100%{transform:translateY(-120px) scale(0.9);opacity:0}}
+    /* responsive */
+    @media(max-width:640px){.avatar{width:72px;height:72px}h1{font-size:1.4rem}}
+  </style>
+</head>
+<body>
+  <div id="introScreen" style="position:fixed;inset:0;background:linear-gradient(135deg,#ffb3c6,#ffd6e0);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;z-index:9999;animation:fadeIn 0.6s ease both">
+  <h1 style="color:#b3003c;font-size:2rem;margin:0 0 10px;font-weight:700;">Are you still angry at me…?</h1>
+  <p style="max-width:600px;font-size:1.1rem;color:#4a0019;line-height:1.5;">I know you are… and I know I hurt you. But before you see anything else, please read this with the same heart you once held me with. I’m not here to defend myself — I’m here to make things right, to soften the hurt I caused, and to show you how much you truly mean to me.</p>
+  <button onclick="enterMain()" style="margin-top:20px;padding:12px 20px;border:0;border-radius:10px;background:#b3003c;color:#fff;font-size:1rem;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(179,0,60,0.3);">Continue ❤️</button>
+</div>
+<style>@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}</style>
+
+<div class="wrap" id="page">
+    <div class="hearts" aria-hidden>
+      <!-- Floating hearts will be cloned here -->
+    </div>
+    <header>
+      
+      <div>
+        <h1>For <span id="herName">Baby</span> — <span style="color:var(--accent)">Please forgive me?</span></h1>
+        <p class="lead">I made a mistake — but you mean everything to me. Read below, written from the heart.</p>
+        
+      </div>
+      <style>
+        @keyframes pulse{
+          0%{transform:scale(1);opacity:1}
+          50%{transform:scale(1.08);opacity:0.85}
+          100%{transform:scale(1);opacity:1}
+        }
+      </style>
+    </header>
+
+    <div class="card">
+      <div class="note">
+        <!-- Emotional Pop Card -->
+        
+        <style>
+          @keyframes slideIn{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+        </style>
+        <p class="big">My love,</p>
+        <p>I realize I hurt you — and I am truly sorry from the bottom of my heart. You are so important to my life; every happiness feels incomplete without you.</p>
+        <p>I promise I will listen better, understand more, and stand by your side.</p>
+        <p><em>This isn't just words — I will show it through my actions.</em></p>
+
+        <p class="big">Small things I will change starting now:</p>
+        <ul>
+          <li>Listen to you carefully without interrupting.</li>
+          <li>Think before I speak so I don't hurt you unintentionally.</li>
+          <li>Hold your hand when you need support and be there for you.</li>
+        </ul>
+
+        <p style="margin-top:12px">Seeing you smile is my greatest joy — may I have another chance?</p>
+
+        <p class="typewriter" id="typeMsg"></p>
+      </div>
+
+      <div class="effects">
+        <button id="confettiBtn">Throw Confetti 🎉</button>
+        <button id="playBtn" class="ghost">Send a rose (cute)</button>
+        <button id="copyBtn">Copy Message</button>
+        <button id="downloadBtn" class="ghost">Download as PNG</button>
+      </div>
+
+      <div style="margin:25px 0;padding:18px;border-radius:14px;background:linear-gradient(135deg,#ffe1e9,#ffd0dc);box-shadow:0 6px 18px rgba(255,0,120,0.25);text-align:center;animation:fadeInSoft 1s ease both">
+  <p style="margin:0;font-size:1.2rem;font-weight:700;color:#b1003a;">I kiss your feet and say sorry, my love… I am only yours. ❤️</p>
+</div>
+<style>
+@keyframes fadeInSoft{0%{opacity:0;transform:translateY(15px)}100%{opacity:1;transform:translateY(0)}}
+</style>
+<footer>
+        <small>Always yours, <strong id="myName">(your name)</strong></small>
+        <small style="opacity:0.8">Tip: Click the avatar to change the photo.</small>
+      </footer>
+    </div>
+
+  </div>
+
+  <script>
+    // Simple customization — change these variables to personalize
+    const herName = 'Divu'; // change girlfriend's name
+    const myName = 'Jatin'; // change your name
+    const typedLines = [
+      'I am truly sorry.',
+      'Just the thought of losing you breaks my heart.',
+      "Please smile just once — I'll take care of the rest."
+    ];
+
+    document.getElementById('herName').innerText = herName;
+    document.getElementById('myName').innerText = myName;
+
+    // Typewriter effect
+    const typeEl = document.getElementById('typeMsg');
+    let li = 0, ci = 0;
+    function typeLoop(){
+      const line = typedLines[li];
+      if(!line) return;
+      if(ci <= line.length){
+        typeEl.textContent = line.slice(0,ci);
+        ci++;
+        setTimeout(typeLoop, 70);
+      } else {
+        setTimeout(()=>{
+          // erase
+          const erase = setInterval(()=>{
+            if(ci>=0){ typeEl.textContent = line.slice(0,ci); ci--; } else { clearInterval(erase); li = (li+1)%typedLines.length; ci=0; setTimeout(typeLoop,400); }
+          },40);
+        },1000);
+      }
+    }
+    typeLoop();
+
+    // Confetti
+    document.getElementById('confettiBtn').addEventListener('click',()=>{
+      confetti({particleCount:120, spread:120, origin:{y:0.4}});
+    });
+
+    // Play small sound / gentle bell
+    const audio = new Audio('data:audio/mp3;base64,//uQZAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCA...');
+    // -- NOTE: base64 audio truncated to keep file small — replace with a real URL or remove when offline.
+    document.getElementById('playBtn').addEventListener('click',async()=>{
+      try{ await audio.play(); alert('Rose sent 🌹 (emoji) — don\'t forget to send a real gift too!'); } catch(e){ alert('Play blocked — try clicking again or enable sound.'); }
+    });
+
+    // Copy prepared message
+    document.getElementById('copyBtn').addEventListener('click',()=>{
+      const msg = `My dearest ${herName},
+
+Please forgive me — I promise I will change and I will never hurt you again.
+
+Always yours, ${myName}`;
+      navigator.clipboard.writeText(msg).then(()=>{ alert('Message copied — paste it in chat 😊'); });
+    });
+
+    // Download as PNG (screenshot of div)
+    document.getElementById('downloadBtn').addEventListener('click',async()=>{
+      try{
+        const node = document.querySelector('.wrap');
+        const rect = node.getBoundingClientRect();
+        // create canvas
+        const c = document.createElement('canvas');
+        c.width = rect.width * devicePixelRatio;
+        c.height = rect.height * devicePixelRatio;
+        const ctx = c.getContext('2d');
+        ctx.scale(devicePixelRatio, devicePixelRatio);
+        // draw background gradient
+        ctx.fillStyle = getComputedStyle(document.body).background;
+        ctx.fillRect(0,0,rect.width,rect.height);
+        // simple text fallback (real html->canvas requires html2canvas lib)
+        ctx.fillStyle = '#222'; ctx.font = '18px sans-serif';
+        ctx.fillText('Open this page and take a screenshot for a better image.',20,40);
+        const link = document.createElement('a');
+        link.href = c.toDataURL('image/png');
+        link.download = 'sorry_note.png';
+        link.click();
+      }catch(e){ alert('Download failed — try screenshot (PrtSc)'); }
+    });
+
+    // Floating hearts generator
+    const heartsRoot = document.querySelector('.hearts');
+    function spawnHeart(){
+      const h = document.createElement('div');
+      h.className='heart';
+      const size = 18 + Math.random()*30;
+      h.style.width = size+'px'; h.style.height = size+'px';
+      h.style.right = (10 + Math.random()*220)+'px';
+      h.style.top = (60 + Math.random()*60)+'px';
+      h.style.opacity = 0.9;
+      h.innerHTML = '❤️';
+      heartsRoot.appendChild(h);
+      setTimeout(()=>h.remove(),6200);
+    }
+    setInterval(spawnHeart,700);
+
+    // Avatar click to change image
+    document.querySelector('.avatar img').addEventListener('click',()=>{
+      const url = prompt('Paste a direct image URL (Unsplash or any image link):');
+      if(url) document.querySelector('.avatar img').src = url;
+    });
+
+  </script>
+<script>
+  function enterMain(){
+    document.getElementById('introScreen').style.display='none';
+  }
+</script>
+</body>
+</html>
